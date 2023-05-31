@@ -1,0 +1,33 @@
+{
+    "editor.tabSize": 2,
+    "editor.rulers": [
+        88
+    ],
+    "editor.formatOnSave": true,
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": [
+        "vue",
+        "html",
+        "javascript"
+    ],
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "eslint.codeAction.showDocumentation": {
+        "enable": true
+    },
+    "template-string-converter.enabled": true,
+    "template-string-converter.quoteType": "single",
+    "template-string-converter.validLanguages": [
+        "svelte",
+        "typescript",
+        "javascript",
+        "typescriptreact",
+        "javascriptreact",
+        "vue",
+    ],
+    "eslint.packageManager": "pnpm",
+}

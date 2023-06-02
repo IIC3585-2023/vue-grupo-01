@@ -1,4 +1,5 @@
-export default function useAuth (clientId: string, redirectUri: string) {
+export default function useAuth () {
+  const { VERCEL_URL: redirectUri, GITHUB_CLIENT_ID: clientId } = useRuntimeConfig().public
   const authUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}`
 
   const token = useCookie('gh_token')

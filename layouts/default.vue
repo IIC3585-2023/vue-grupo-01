@@ -31,7 +31,5 @@
 <script setup lang="ts">
 import useAuth from '~/composables/useAuth'
 
-const { GITHUB_REDIRECT_URI, GITHUB_CLIENT_ID } = useRuntimeConfig().public
-
-const { authUrl, isLoggedIn, logout } = useAuth(GITHUB_CLIENT_ID, GITHUB_REDIRECT_URI)
+const { authUrl, isLoggedIn, logout } = useAuth()
 </script>

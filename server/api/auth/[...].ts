@@ -1,4 +1,4 @@
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = useRuntimeConfig()
+const config = useRuntimeConfig()
 
 interface Response {
   access_token: string,
@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
       {
         method: 'POST',
         body: {
-          client_id: GITHUB_CLIENT_ID,
-          client_secret: GITHUB_CLIENT_SECRET,
+          client_id: config.public.GITHUB_CLIENT_ID,
+          client_secret: config.GITHUB_CLIENT_SECRET,
           code
         }
       }

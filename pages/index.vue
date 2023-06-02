@@ -27,13 +27,15 @@
       <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes"></figure>
       <div class="card-body">
         <h2 class="card-title">
-          Shoes!
+          Log in with GitHub
         </h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary">
-            Buy Now
-          </button>
+          <NuxtLink
+            class="btn btn-primary"
+            :to="authUrl"
+          >
+            Log in
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -42,6 +44,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+const { GITHUB_REDIRECT_URI, GITHUB_CLIENT_ID } = useRuntimeConfig()
+
+const authUrl = `
+  https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT_URI}
+`
 
 const count = ref<number>(0)
 

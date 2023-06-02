@@ -3,18 +3,14 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
-    '@pinia/nuxt',
-    '@sidebase/nuxt-auth'
+    '@pinia/nuxt'
   ],
   runtimeConfig: {
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    SECRET: process.env.SECRET || 'dummy-secret-here'
+    GITHUB_REDIRECT_URI: process.env.GITHUB_REDIRECT_URI
   },
   eslint: {
     lintOnStart: false
-  },
-  auth: {
-    origin: process.env.ORIGIN
   }
 })

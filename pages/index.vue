@@ -50,26 +50,18 @@
 </template>
 
 <script setup lang="ts">
-import useAuth from '~/composables/useAuth'
 import type { User } from '~/composables/types'
 
 const { isLoggedIn, token } = useAuth()
 
-const followers = ref<User[]>([])
-const following = ref<User[]>([])
-
-const followersThatArentFollowingBack = computed(() => {
-  return followers.value.filter(follower => !following.value.some(following => following.login === follower.login))
-})
-const followingThatArentFollowersBack = computed(() => {
-  return following.value.filter(following => !followers.value.some(follower => follower.login === following.login))
-})
+const followersThatArentFollowingBack = ref<User[]>([])
+const followingThatArentFollowersBack = ref<User[]>([])
 
 watch(token, async (tokenValue) => {
   if (!tokenValue) { return }
-  const { followers: followersResult, following: followingResult } = await useUserInfo()
-  followers.value = followersResult
-  following.value = followingResult
+  const info = await useFollowingInfo()
+  followersThatArentFollowingBack.value = info.followersThatArentFollowingBack
+  followingThatArentFollowersBack.value = info.followingThatArentFollowersBack
 }, { immediate: true })
 
 const count = ref<number>(0)

@@ -17,8 +17,11 @@ export default async function () {
   const followers: User[] = getRelated(data.value.viewer.followers.edges)
   const following: User[] = getRelated(data.value.viewer.following.edges)
 
+  const followersThatArentFollowingBack = followers.filter(follower => !following.some(following => following.login === follower.login))
+  const followingThatArentFollowersBack = following.filter(following => !followers.some(follower => follower.login === following.login))
+
   return {
-    followers,
-    following,
+    followersThatArentFollowingBack,
+    followingThatArentFollowersBack,
   }
 }

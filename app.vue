@@ -15,6 +15,7 @@ const members = ref<string[]>([
 
 onMounted(() => {
   members.value.forEach((member: string) => {
+    // eslint-disable-next-line no-console
     console.log(member)
   })
 })

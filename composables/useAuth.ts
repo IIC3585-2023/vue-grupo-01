@@ -11,7 +11,7 @@ function buildAuthURL () {
 export default function useAuth () {
   const token = useStatefulCookie('gh_token')
 
-  const logout = () => token.value = null
+  const logout = () => (token.value = null)
 
   return {
     authUrl: buildAuthURL(),

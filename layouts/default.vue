@@ -32,4 +32,5 @@
 import useAuth from '~/composables/useAuth'
 
 const { authUrl, isLoggedIn, logout } = useAuth()
+
 </script>

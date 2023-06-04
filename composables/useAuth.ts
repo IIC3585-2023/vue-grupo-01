@@ -1,24 +1,21 @@
-export default function useAuth() {
+function buildAuthURL () {
   const { VERCEL_URL: redirectUri, GITHUB_CLIENT_ID: clientId } = useRuntimeConfig().public
+
   const authUrl = new URL('https://github.com/login/oauth/authorize')
   authUrl.searchParams.append('client_id', clientId)
   authUrl.searchParams.append('redirect_uri', redirectUri)
 
-  const token = useCookie('gh_token')
+  return authUrl.toString()
+}
 
-  /** Computed value to know if the user is logged in */
-  const isLoggedIn = computed<boolean>(() => {
-    return !!token.value
-  })
+export default function useAuth () {
+  const token = useStatefulCookie('gh_token')
 
-  /** Logout the user */
-  const logout = () => {
-    token.value = null
-  }
+  const logout = () => token.value = null
 
   return {
-    authUrl: authUrl.toString(),
-    isLoggedIn,
+    authUrl: buildAuthURL(),
+    isLoggedIn: computed(() => !!token.value),
     token,
     logout,
   }

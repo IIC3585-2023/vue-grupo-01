@@ -1,6 +1,6 @@
 export interface User {
   login: string
-  name: string
+  name: string | null
   avatarUrl: string
   followers: {
     totalCount: number

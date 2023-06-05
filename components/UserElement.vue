@@ -38,10 +38,10 @@
       </div>
       <div class="mb-4 text-center">
         <span v-if="overThreshold" class="font-bold bg-green-700 text-gray-200 px-2 py-1.5 rounded">
-          (&ge;{{ formatAsPercentage(threshold) }}) This meas there should be a follow back
+          (&ge;{{ formatAsPercentage(threshold) }}) This means there should be a follow back
         </span>
         <span v-else class="font-bold bg-red-700 text-gray-200 px-2 py-1.5 rounded">
-          (&lt;{{ formatAsPercentage(threshold) }}) This meas we are not that close
+          (&lt;{{ formatAsPercentage(threshold) }}) This means we are not that close
         </span>
       </div>
       <ul class="flex flex-col gap-2">

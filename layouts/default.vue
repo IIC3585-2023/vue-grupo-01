@@ -1,14 +1,11 @@
 <template>
   <nav class="navbar bg-base-100">
-    <div class="navbar-start">
-      <NuxtLink
-        class="btn btn-ghost normal-case text-xl"
-        to="/"
-      >
-        Home
-      </NuxtLink>
+    <div class="navbar-start ml-4">
+      <h1 class="font-bold text-lg">
+        Missing followers
+      </h1>
     </div>
-    <div class="navbar-end">
+    <div class="navbar-end flex gap-4">
       <NuxtLink
         v-if="!isLoggedIn"
         class="btn"
@@ -16,13 +13,21 @@
       >
         Log in
       </NuxtLink>
-      <button
-        v-else
-        class="btn btn-ghost"
-        @click="logout"
-      >
-        Log out
-      </button>
+      <template v-else>
+        <div v-if="userInfo" class="flex items-center gap-2">
+          <img
+            :src="userInfo.avatarUrl"
+            class="rounded-full w-8 h-8"
+          >
+          {{ userInfo.login }}
+        </div>
+        <button
+          class="btn btn-ghost"
+          @click="logout"
+        >
+          Log out
+        </button>
+      </template>
     </div>
   </nav>
   <slot />
@@ -30,6 +35,16 @@
 
 <script setup lang="ts">
 import useAuth from '~/composables/useAuth'
+import { useCurrentUserStore } from '~/stores/currentUser'
 
-const { authUrl, isLoggedIn, logout } = useAuth()
+const { authUrl, isLoggedIn, logout, token } = useAuth()
+const currentUserStore = useCurrentUserStore()
+const userInfo = ref(null)
+
+watch(token, async (tokenValue) => {
+  if (!tokenValue) { return }
+  await currentUserStore.getUserInfo()
+  userInfo.value = currentUserStore.info
+}, { immediate: true })
+
 </script>

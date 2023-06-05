@@ -19,7 +19,14 @@
             :src="userInfo.avatarUrl"
             class="rounded-full w-8 h-8"
           >
-          {{ userInfo.login }}
+          <a
+            :href="`https://github.com/${userInfo.login}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-base-content"
+          >
+            {{ userInfo.login }}
+          </a>
         </div>
         <button
           class="btn btn-ghost"

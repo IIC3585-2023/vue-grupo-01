@@ -2,7 +2,7 @@
   <li class="flex flex-row justify-between items-center gap-4 bg-base-200 border-base-300 border rounded-lg overflow-clip">
     <div class="flex flex-row gap-4 items-center flex-shrink">
       <img :src="avatarUrl" :alt="name ?? login" class="aspect-ratio-square h-24 items-center">
-      <div class="flex-shrink truncate">
+      <div class="flex-shrink truncate max-w-xs">
         <a
           :href="`https://github.com/${login}`"
           target="_blank"
@@ -18,11 +18,11 @@
       </div>
     </div>
     <button
-      class="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-32 flex-shrink-0 h-fit mr-4"
+      class="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-40 flex-shrink-0 h-fit mr-4"
       @click="getDetail"
     >
       <p v-if="!loading">
-        Should Follow Back?
+        {{ !isFollower ? 'Should They Follow You Back?' : 'Should You Follow Them Back?' }}
       </p>
       <span v-else class="loading loading-dots loading-md" />
     </button>
@@ -35,7 +35,7 @@
         <span class="font-bold">
           {{ formatAsPercentage(value) }}
         </span>
-        of the people they follow, follow you
+        {{ !isFollower ? 'of the people they follow, follow you' : 'of the people that follow them, you also follow' }}
       </div>
       <ul class="flex flex-col gap-2">
         <li v-for="user, index in intersection" :key="index" class="flex gap-2 rounded border border-base-300 overflow-hidden">
@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Followers, Following, User } from '~/composables/types'
+import { Followers, Following, User, UserQuery } from '~/composables/types'
 
 const formatAsPercentage = Intl.NumberFormat('en-US', { style: 'percent' }).format
 
@@ -72,13 +72,11 @@ const loading = ref(false)
 
 const intersection = ref<any>([])
 const value = ref(0)
-// const intersection1 = computed(() => getIntersection(props.currentUserFollowers, followingSex.value.edges))
-// const intersection2 = computed(() => getIntersection(props.currentUserFollowing, followersSex.value.edges))
 
 const getDetail = async () => {
   loading.value = true
   const login = props.login
-  const { data } = await useAsyncQuery(userQuery, { login, first: 100 })
+  const { data } = await useAsyncQuery<UserQuery>(userQuery, { login, first: 100 })
   loading.value = false
   showDialog.value = true
 
@@ -87,19 +85,14 @@ const getDetail = async () => {
 
   if (!props.isFollower) {
     intersection.value = getIntersection(props.currentUserFollowers, followingSex.value.edges)
-    value.value = intersection.value.length / props.following.totalCount
+    value.value = intersection.value.length / props.following.totalCount || 0
   } else {
     intersection.value = getIntersection(props.currentUserFollowing, followersSex.value.edges)
-    value.value = intersection.value.length / props.followers.totalCount
+    value.value = intersection.value.length / props.followers.totalCount || 0
   }
-  console.log('intersection', intersection.value)
-  // console.log('followingSex', followingSex.value)
-  // console.log('followersSex', followersSex.value)
 }
 
-const getIntersection = (f1: any, f2: any) => {
-  // console.log('f1', f1)
-  // console.log('f2', f2)
+const getIntersection = (f1: User[], f2: Array<{node: User}>) => {
   const usersInCommon = []
   for (const user1 of f1) {
     for (const user2 of f2) {

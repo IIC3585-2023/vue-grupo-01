@@ -29,3 +29,7 @@ export interface Viewer {
 export interface UserInfoQuery {
   viewer: Viewer
 }
+
+export interface UserQuery {
+  user: User
+}

@@ -1,6 +1,5 @@
 function buildAuthURL () {
   const { REDIRECT_URL: redirectUri, GITHUB_CLIENT_ID: clientId } = useRuntimeConfig().public
-
   const authUrl = new URL('https://github.com/login/oauth/authorize')
   authUrl.searchParams.append('client_id', clientId)
   authUrl.searchParams.append('redirect_uri', redirectUri)

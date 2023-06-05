@@ -1,5 +1,5 @@
 function buildAuthURL () {
-  const { VERCEL_URL: redirectUri, GITHUB_CLIENT_ID: clientId } = useRuntimeConfig().public
+  const { REDIRECT_URL: redirectUri, GITHUB_CLIENT_ID: clientId } = useRuntimeConfig().public
 
   const authUrl = new URL('https://github.com/login/oauth/authorize')
   authUrl.searchParams.append('client_id', clientId)

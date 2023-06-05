@@ -20,6 +20,7 @@ export interface Followers {
 export interface Following extends Followers {}
 
 export interface Viewer {
+  avatarUrl: string
   login: string
   followers: Followers
   following: Following

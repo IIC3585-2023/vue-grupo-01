@@ -4,15 +4,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
     public: {
-<<<<<<< HEAD
-      REDIRECT_URL: `${process.env.HOST ?? process.env.VERCEL_URL}/api/auth/callback`,
-=======
-<<<<<<< Updated upstream
-      VERCEL_URL: `https://${process.env.HOST ?? process.env.VERCEL_URL}/api/auth/callback`,
-=======
       REDIRECT_URL: `https://${process.env.HOST ?? process.env.VERCEL_URL}/api/auth/callback`,
->>>>>>> Stashed changes
->>>>>>> 4fd90ed (fix)
       GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     },
   },

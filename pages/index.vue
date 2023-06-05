@@ -1,10 +1,10 @@
 <template>
   <template v-if="isLoggedIn && loading" />
   <template v-else-if="isLoggedIn && !loading">
-    <div class="grid grid-cols-2 gap-4 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
       <div>
         <h2 class="text-xl font-extrabold text-center mb-4">
-          Following that aren't following you back ({{ followingThatArentFollowersBack.length }} / {{ currentUserFollowing.length }})
+          Following that aren't following me back ({{ followingThatArentFollowersBack.length }} / {{ currentUserFollowing.length }})
         </h2>
         <ul class="flex flex-col gap-4">
           <UserElement
@@ -19,7 +19,7 @@
       </div>
       <div>
         <h2 class="text-xl font-extrabold text-center mb-4">
-          Followers that you aren't following back ({{ followersThatArentFollowingBack.length }} / {{ currentUserFollowers.length }})
+          Followers that I'm not following back ({{ followersThatArentFollowingBack.length }} / {{ currentUserFollowers.length }})
         </h2>
         <ul class="flex flex-col gap-4">
           <UserElement

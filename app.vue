@@ -14,6 +14,7 @@ const members = ref<string[]>([
 ])
 
 onMounted(() => {
+  document.title = 'Missing Followers'
   members.value.forEach((member: string) => {
     // eslint-disable-next-line no-console
     console.log(member)

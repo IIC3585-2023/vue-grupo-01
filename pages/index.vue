@@ -4,32 +4,24 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
       <div>
         <h2 class="text-xl font-extrabold text-center mb-4">
-          Following that aren't following me back ({{ followingThatArentFollowersBack.length }} / {{ currentUserFollowing.length }})
+          Following that aren't following me back ({{ followingThatArentFollowersBack.length }} / {{
+            currentUserFollowing.length }})
         </h2>
         <ul class="flex flex-col gap-4">
-          <UserElement
-            v-for="user, index in followingThatArentFollowersBack"
-            :key="index"
-            v-bind="user"
-            :is-follower="false"
-            :current-user-followers="currentUserFollowers"
-            :current-user-following="currentUserFollowing"
-          />
+          <UserElement v-for="user, index in followingThatArentFollowersBack" :key="index" v-bind="user"
+            :is-follower="false" :current-user-followers="currentUserFollowers"
+            :current-user-following="currentUserFollowing" />
         </ul>
       </div>
       <div>
         <h2 class="text-xl font-extrabold text-center mb-4">
-          Followers that I'm not following back ({{ followersThatArentFollowingBack.length }} / {{ currentUserFollowers.length }})
+          Followers that I'm not following back ({{ followersThatArentFollowingBack.length }} / {{
+            currentUserFollowers.length }})
         </h2>
         <ul class="flex flex-col gap-4">
-          <UserElement
-            v-for="user, index in followersThatArentFollowingBack"
-            :key="index"
-            v-bind="user"
-            :is-follower="true"
-            :current-user-followers="currentUserFollowers"
-            :current-user-following="currentUserFollowing"
-          />
+          <UserElement v-for="user, index in followersThatArentFollowingBack" :key="index" v-bind="user"
+            :is-follower="true" :current-user-followers="currentUserFollowers"
+            :current-user-following="currentUserFollowing" />
         </ul>
       </div>
     </div>
@@ -39,15 +31,17 @@
       <div class="hero-content text-center">
         <div class="max-w-md">
           <h1 class="text-5xl font-bold">
-            Counter: {{ count }}
+            GitHub Missing Followers: {{ count }}
           </h1>
-          <p class="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti
-            eaque aut repudiandae et a id nisi.
-          </p>
+          <div class="flex justify-center">
+            <img src="/logo.png" alt="" class="rounded-lg shadow-md w-32 py-4">
+          </div>
           <button class="btn btn-primary" @click="increment">
             +1 to counter
           </button>
+          <p class="py-6">
+            You can now check your missing followers and following on GitHub
+          </p>
         </div>
       </div>
     </div>

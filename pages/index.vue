@@ -1,6 +1,8 @@
 <template>
-  <template v-if="isLoggedIn && loading" />
-  <template v-else-if="isLoggedIn && !loading">
+  <template v-if="isLoggedIn && loadingUserInfo">
+    <span class="loading loading-spinner loading-lg center" />
+  </template>
+  <template v-else-if="isLoggedIn && !loadingUserInfo">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
       <div>
         <h2 class="text-xl font-extrabold text-center mb-4">
@@ -8,9 +10,14 @@
             currentUserFollowing.length }})
         </h2>
         <ul class="flex flex-col gap-4">
-          <UserElement v-for="user, index in followingThatArentFollowersBack" :key="index" v-bind="user"
-            :is-follower="false" :current-user-followers="currentUserFollowers"
-            :current-user-following="currentUserFollowing" />
+          <UserElement
+            v-for="user, index in followingThatArentFollowersBack"
+            :key="index"
+            v-bind="user"
+            :is-follower="false"
+            :current-user-followers="currentUserFollowers"
+            :current-user-following="currentUserFollowing"
+          />
         </ul>
       </div>
       <div>
@@ -19,9 +26,14 @@
             currentUserFollowers.length }})
         </h2>
         <ul class="flex flex-col gap-4">
-          <UserElement v-for="user, index in followersThatArentFollowingBack" :key="index" v-bind="user"
-            :is-follower="true" :current-user-followers="currentUserFollowers"
-            :current-user-following="currentUserFollowing" />
+          <UserElement
+            v-for="user, index in followersThatArentFollowingBack"
+            :key="index"
+            v-bind="user"
+            :is-follower="true"
+            :current-user-followers="currentUserFollowers"
+            :current-user-following="currentUserFollowing"
+          />
         </ul>
       </div>
     </div>
@@ -34,7 +46,7 @@
             GitHub Missing Followers: {{ count }}
           </h1>
           <div class="flex justify-center">
-            <img src="/logo.png" alt="" class="rounded-lg shadow-md w-32 py-4">
+            <img src="/logo.png" alt="" class="rounded-lg w-32 py-4 invert">
           </div>
           <button class="btn btn-primary" @click="increment">
             +1 to counter
@@ -54,22 +66,13 @@ import { useCurrentUserStore } from '~/stores/currentUser'
 
 const currentUserStore = useCurrentUserStore()
 
-const { isLoggedIn, token } = useAuth()
+const { isLoggedIn } = useAuth()
 
-const followersThatArentFollowingBack = ref<User[]>([])
-const followingThatArentFollowersBack = ref<User[]>([])
-const currentUserFollowing = ref<User[]>([])
-const currentUserFollowers = ref<User[]>([])
-const loading = ref<boolean>(true)
-
-watch(token, (tokenValue) => {
-  if (!tokenValue) { return }
-  followersThatArentFollowingBack.value = currentUserStore.followersThatYouArentFollowingBack
-  followingThatArentFollowersBack.value = currentUserStore.followingThatArentFollowersBack
-  currentUserFollowing.value = currentUserStore.following
-  currentUserFollowers.value = currentUserStore.followers
-  loading.value = false
-}, { immediate: true })
+const followersThatArentFollowingBack = computed(() => currentUserStore.followersThatYouArentFollowingBack)
+const followingThatArentFollowersBack = computed(() => currentUserStore.followingThatArentFollowersBack)
+const currentUserFollowing = computed(() => currentUserStore.following)
+const currentUserFollowers = computed(() => currentUserStore.followers)
+const loadingUserInfo = computed(() => currentUserStore.loadingUserInfo)
 
 const count = ref<number>(0)
 
@@ -78,3 +81,11 @@ const increment = () => {
 }
 
 </script>
+
+<style scoped>
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+</style>

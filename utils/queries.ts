@@ -5,6 +5,10 @@ export const userInfoQuery = gql`
       avatarUrl
       followers(first: $first) {
         totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             login
@@ -21,6 +25,10 @@ export const userInfoQuery = gql`
       }
       following(first: $first) {
         totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             login
@@ -39,11 +47,73 @@ export const userInfoQuery = gql`
   }
 `
 
+export const followingQuery = gql`
+query GetFollowing($pageSize: Int, $afterCursor: String) {
+  viewer {
+    login
+    avatarUrl
+    following(first: $pageSize, after: $afterCursor) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          login
+          name
+          avatarUrl
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
+`
+
+export const followersQuery = gql`
+query GetFollowers($pageSize: Int, $afterCursor: String) {
+  viewer {
+    login
+    avatarUrl
+    followers(first: $pageSize, after: $afterCursor) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          login
+          name
+          avatarUrl
+          followers {
+            totalCount
+          }
+          following {
+            totalCount
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 export const userQuery = gql`
-  query ($login: String!, $first: Int) {
+  query ($login: String!, $pageSize: Int) {
     user(login: $login) {
-      following(first: $first) {
+      following(first: $pageSize) {
         totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             login
@@ -58,8 +128,66 @@ export const userQuery = gql`
           }
         }
       }
-      followers(first: $first) {
+      followers(first: $pageSize) {
         totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            login
+            name
+            avatarUrl
+            followers {
+              totalCount
+            }
+            following {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export const userQueryFollowing = gql`
+query GetFollowing($login: String!, $pageSize: Int, $afterCursor: String) {
+    user(login: $login) {
+      following(first: $pageSize, after: $afterCursor) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            login
+            name
+            avatarUrl
+            followers {
+              totalCount
+            }
+            following {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+export const userQueryFollowers = gql`
+query GetFollowers($login: String!, $pageSize: Int, $afterCursor: String) {
+    user(login: $login) {
+      followers(first: $pageSize, after: $afterCursor) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         edges {
           node {
             login

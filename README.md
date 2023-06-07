@@ -1,42 +1,62 @@
-# Nuxt 3 Minimal Starter
+# VueJS - Grupo 1
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more
+This project check the poroximity in a unidrectional social network.
 
-## Setup
+The resources used for this project are:
 
-Make sure to install the dependencies:
+- [Web Page](https://missing-github-followers.vercel.app/)
+- [GitHub API](https://api.github.com/graphql)
+- [Presentation](https://bitly.com/98K8eH)
+
+## Contributors
+
+| Name                | Email              | Github                                           |
+| ------------------- | ------------------ | ------------------------------------------------ |
+| Jose Antonio Castro | jacastro18@uc.cl   | [@Baelfire18](https://github.com/Baelfire18)     |
+| Benjamín Vicente    | benjavicente@uc.cl | [@benjavicente](https://github.com/benjavicente) |
+| José Madriaza       | jm.madriaza@uc.cl  | [@LeoMo-27](https://github.com/LeoMo-27)         |
+
+
+## Stack
+
+- Node 18.0.0
+- Vue 3
+- Nuxt 3
+- TailwindCSS
+- Apollo 5 (GraphQL)
+- Pinia 2 (Store)
+
+
+## How to run
+
+### Install pnpm and dependencies
 
 ```bash
-# yarn
-yarn install
+npm install -g pnpm
+```
 
-# npm
-npm install
-
-# pnpm
+```bash
 pnpm install
 ```
 
-## Development Server
+### Development Server
 
-Start the development server on `http://localhost:3000`
+Start the development server on `http://localhost:3000`:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-## Production
+### Production
 
 Build the application for production:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+pnpm run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

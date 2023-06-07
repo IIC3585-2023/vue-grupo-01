@@ -2,22 +2,22 @@ export interface User {
   login: string
   name: string | null
   avatarUrl: string
-  followers: {
-    totalCount: number
-  }
-  following: {
-    totalCount: number
-  }
+  followers: Followers
+  following: Following
 }
 
 export interface Followers {
   totalCount: number
+  pageInfo?: {
+    hasNextPage: boolean
+    endCursor: string
+  }
   edges: Array<{
     node: User
   }>
 }
 
-export interface Following extends Followers {}
+export interface Following extends Followers { }
 
 export interface Viewer {
   avatarUrl: string
@@ -33,3 +33,5 @@ export interface UserInfoQuery {
 export interface UserQuery {
   user: User
 }
+
+export type PageSize = string | number

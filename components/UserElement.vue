@@ -32,7 +32,7 @@
       <div class="mb-4 text-center">
         {{ isFollower ? 'I follow ' : "" }}
         <span class="font-bold">
-          {{ formatAsPercentage(value) }}
+          {{ formatAsPercentage(percentage) }}
         </span>
         {{ !isFollower ? 'of their following, also follow me' : 'of their followers' }}
       </div>
@@ -61,7 +61,8 @@
 </template>
 
 <script setup lang="ts">
-import { Followers, Following, User, UserQuery } from '~/composables/types'
+import type { NuxtApp } from 'nuxt/app'
+import { Followers, Following, User, UserQuery, PageSize } from '~/composables/types'
 
 const formatAsPercentage = Intl.NumberFormat('en-US', { style: 'percent' }).format
 
@@ -83,24 +84,48 @@ const followersSex = ref<Followers[]>([])
 const loading = ref(false)
 
 const intersection = ref<any>([])
-const value = ref(0)
+const percentage = ref(0)
+
+const getNextQuery = async (app: NuxtApp, data: any, login: string, limitOfPages: number, isFollower: boolean, followType: 'followers' | 'following', pageSize: PageSize) => {
+  if (isFollower) { return }
+  const counter = ref(1)
+  const followQuery = followType === 'followers' ? userQueryFollowers : userQueryFollowing
+  while (data.value.user[followType]?.pageInfo.hasNextPage && counter.value < limitOfPages) {
+    counter.value += 1
+    const { data: data2 } = await useGithubQuery<UserQuery>(app, followQuery, {
+      login,
+      pageSize,
+      afterCursor: data.value.user[followType]?.pageInfo.endCursor,
+    })
+    data.value.user[followType].edges = data.value.user[followType]?.edges.concat(data2.value.user[followType]?.edges)
+    data.value.user[followType].pageInfo = data2.value.user[followType]?.pageInfo
+  }
+  // console.log('counter', followType, counter.value)
+}
 
 const getDetail = async () => {
   loading.value = true
+  const app = useNuxtApp()
   const login = props.login
-  const { data } = await useAsyncQuery<UserQuery>(userQuery, { login, first: 100 })
-  loading.value = false
-  showDialog.value = true
+  const isFollower = props.isFollower
+  const limitOfPages = 10
+  const { data } = await useAsyncQuery<UserQuery>(userQuery, { login, pageSize })
+
+  await getNextQuery(app, data, login, limitOfPages, isFollower, 'following', pageSize)
+  await getNextQuery(app, data, login, limitOfPages, !isFollower, 'followers', pageSize)
 
   followingSex.value = data.value.user.following
   followersSex.value = data.value.user.followers
 
+  loading.value = false
+  showDialog.value = true
+
   if (!props.isFollower) {
     intersection.value = getIntersection(props.currentUserFollowers, followingSex.value.edges)
-    value.value = intersection.value.length / props.following.totalCount || 0
+    percentage.value = intersection.value.length / props.following.totalCount || 0
   } else {
     intersection.value = getIntersection(props.currentUserFollowing, followersSex.value.edges)
-    value.value = intersection.value.length / props.followers.totalCount || 0
+    percentage.value = intersection.value.length / props.followers.totalCount || 0
   }
 }
 
@@ -116,6 +141,6 @@ const getIntersection = (f1: User[], f2: Array<{ node: User }>) => {
   return usersInCommon
 }
 
-const overThreshold = computed(() => value.value >= threshold)
+const overThreshold = computed(() => percentage.value >= threshold)
 
 </script>

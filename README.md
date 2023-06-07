@@ -5,8 +5,8 @@ This project check the poroximity in a unidrectional social network.
 The resources used for this project are:
 
 - [Web Page](https://missing-github-followers.vercel.app/)
+- [Presentation](/slides/vuejs.pdf)
 - [GitHub API](https://api.github.com/graphql)
-- [Presentation](https://bitly.com/98K8eH)
 
 ## Contributors
 
@@ -22,6 +22,7 @@ The resources used for this project are:
 - Node 18.0.0
 - Vue 3
 - Nuxt 3
+- TypeScript
 - TailwindCSS
 - Apollo 5 (GraphQL)
 - Pinia 2 (Store)
